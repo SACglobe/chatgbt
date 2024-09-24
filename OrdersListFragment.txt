@@ -115,28 +115,7 @@ public class OrdersListFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String buyerName = charSequence.toString();
 
-                observeOrderDetails(orderDetails_viewModel.filterOrderWithBuyerName(buyerName));
-            }
-
-            private void observeOrderDetails(LiveData<ApiResponseState_Enum<List<OrderDetails_Model>>> resources) {
-                resources.observe(getViewLifecycleOwner(), resource -> {
-                    ordersListAdapter.clearOrders();
-                    if (resource != null) {
-                        switch (resource.status) {
-                            case LOADING:
-                                Toast.makeText(requireActivity(), "Loading Orders", Toast.LENGTH_SHORT).show();
-                                break;
-                            case SUCCESS:
-                                Toast.makeText(requireActivity(), "Success in fetching orders", Toast.LENGTH_SHORT).show();
-                                ordersListAdapter.setOrders(resource.data,selectedOrderButton);
-                                break;
-
-                            case ERROR:
-                                Toast.makeText(requireActivity(), "Error in fetching orders", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
+                orderDetails_viewModel.filterOrderWithBuyerName(buyerName);
 
             }
 
@@ -193,6 +172,7 @@ public class OrdersListFragment extends Fragment {
                         break;
                     case SUCCESS:
                         Toast.makeText(requireActivity(), "Success in fetching orders", Toast.LENGTH_SHORT).show();
+
                         ordersListAdapter.setOrders(resource.data,selectedOrderButton);
                         break;
                     case ERROR:
